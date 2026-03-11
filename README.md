@@ -1,0 +1,2 @@
+# mattishakki
+tietojenkäsittelytieteen harjoitustyö
