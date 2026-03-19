@@ -1,4 +1,5 @@
 # mattishakki
+[![codecov](https://codecov.io/gh/mistablasta/mattishakki/graph/badge.svg?token=OLBMUSIGFU)](https://codecov.io/gh/mistablasta/mattishakki)
 
 ### Dokumentaatio
 [Määrittelydokumentti](docs/maarittelydokumentti.md)
