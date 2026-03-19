@@ -1,55 +1,71 @@
-class ChessBoard:
+class ChessBoard: # pylint: disable=too-many-instance-attributes
     """Shakkilaudan peruslogiikka"""
     def __init__(self):
         """Alustaa nappuloiden sijainnit bitboardeina, sekä unicodet tulostamista varten."""
-        self.WhitePawn = 0x000000000000ff00
-        self.WhiteRook = 0x0000000000000081
-        self.WhiteKnight = 0x0000000000000042
-        self.WhiteBishop = 0x0000000000000024
-        self.WhiteQueen = 0x0000000000000008
-        self.WhiteKing = 0x0000000000000010
+        self.white_pawn = 0x000000000000ff00
+        self.white_rook = 0x0000000000000081
+        self.white_knight = 0x0000000000000042
+        self.white_bishop = 0x0000000000000024
+        self.white_queen = 0x0000000000000008
+        self.white_king = 0x0000000000000010
 
-        self.BlackPawn = 0xff000000000000
-        self.BlackRook = 0x8100000000000000
-        self.BlackKnight = 0x4200000000000000
-        self.BlackBishop = 0x2400000000000000
-        self.BlackQueen = 0x800000000000000
-        self.BlackKing = 0x1000000000000000
-
-        self.WhiteBoard = self.WhitePawn | self.WhiteRook | self.WhiteKnight | self.WhiteBishop | self.WhiteQueen | self.WhiteKing
-        self.BlackBoard = self.BlackPawn | self.BlackRook | self.BlackKnight | self.BlackBishop | self.BlackQueen | self.BlackKing
-        self.CombinedBoard = self.BlackBoard | self.WhiteBoard
+        self.black_pawn = 0x00ff000000000000
+        self.black_rook = 0x8100000000000000
+        self.black_knight = 0x4200000000000000
+        self.black_bishop = 0x2400000000000000
+        self.black_queen = 0x800000000000000
+        self.black_king = 0x1000000000000000
 
         self.pieces = {
-            "♙": "WhitePawn", "♖": "WhiteRook", "♘": "WhiteKnight", "♗": "WhiteBishop", "♕": "WhiteQueen", "♔": "WhiteKing", 
-            "♟": "BlackPawn", "♜": "BlackRook", "♞": "BlackKnight", "♝": "BlackBishop", "♛": "BlackQueen", "♚": "BlackKing" 
+            "♙": "white_pawn", "♖": "white_rook", "♘": "white_knight",
+            "♗": "white_bishop", "♕": "white_queen", "♔": "white_king", 
+            "♟": "black_pawn", "♜": "black_rook", "♞": "black_knight",
+            "♝": "black_bishop", "♛": "black_queen", "♚": "black_king" 
         }
 
-        self.WhiteTurn = True
+        self.pieces_location = [None] * 64
+
+        self.white_turn = True
+        self.update_board()
+        self.update_location()
 
     def update_board(self):
         """Päivittää laudan tilan."""
-        self.WhiteBoard = self.WhitePawn | self.WhiteRook | self.WhiteKnight | self.WhiteBishop | self.WhiteQueen | self.WhiteKing
-        self.BlackBoard = self.BlackPawn | self.BlackRook | self.BlackKnight | self.BlackBishop | self.BlackQueen | self.BlackKing
-        self.CombinedBoard = self.BlackBoard | self.WhiteBoard
-        
+        self.white_board = (self.white_pawn | self.white_rook | self.white_knight |
+                           self.white_bishop | self.white_queen | self.white_king)
+
+        self.black_board = (self.black_pawn | self.black_rook | self.black_knight |
+                           self.black_bishop | self.black_queen | self.black_king)
+
+        self.combined_board = self.black_board | self.white_board
+
+    def update_location(self):
+        """Päivittää nappuloiden sijainnit liikkumisen seurantaan. Käytetään vain alussa."""
+        for square in range(64):
+            self.pieces_location[square] = None
+            for bitboardhelper in self.pieces.values():
+                bitboard = getattr(self, bitboardhelper)
+                if bitboard & (1 << square):
+                    self.pieces_location[square] = bitboardhelper
+                    break
+
     def print_gameboard(self):
         """Tulostaa pelaajalle shakkilaudan. Pelinäkymä, ei käytetä sisäisessä logiikassa."""
-        for rank in range(7, -1, -1):
+        for rank in range(7, -1, -1): # pylint: disable=too-many-nested-blocks
             line = ""
             for file in range(8):
                 square = 1 << (rank * 8 + file)
-                for symbol, bitboard in self.pieces.items():        
+                for symbol, bitboard in self.pieces.items():
                     if square & getattr(self, bitboard):
                         line += symbol + "    "
                         break
                 else:
                     line += ".    "
             print(line)
-        if self.WhiteTurn:
-            print("Valkoisen vuoro.")
+        if self.white_turn:
+            print("PLAYER 1's TURN")
         else:
-            print("Mustan vuoro.")
+            print("PLAYER 2's TURN")
 
     def print_board(self, bitboard):
         """Tulostaa bitboardin. Visualisoidaan muodossa: 1 = nappula, . = tyhjä.

@@ -1,8 +1,8 @@
 from board import ChessBoard
-from moves import move
+from moves import move_manual
 
 board = ChessBoard()
 board.print_gameboard()
-print("Tervetuloa Shakkiin!\n--------------------")
-for i in range(100):
-    move(board)
+print("Welcome to Chess! Type help for instructions.\n--------------------")
+while True:
+    move_manual(board)
