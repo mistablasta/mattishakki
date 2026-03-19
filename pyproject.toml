@@ -9,6 +9,9 @@ readme = "README.md"
 requires-python = "^3.10"
 dependencies = [
 ]
+packages = [
+    { include = "mattishakki", from = "src" }
+]
 
 
 [build-system]

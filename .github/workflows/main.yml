@@ -17,7 +17,7 @@ jobs:
       - name: Install Poetry
         run: pip install poetry
       - name: Install dependencies
-        run: poetry install --no-root
+        run: poetry install
       - name: Run pylint
         run: poetry run pylint src tests
       - name: Run tests
