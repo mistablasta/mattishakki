@@ -7,3 +7,4 @@
 
 ### Viikkoraportit
 [Viikkoraportti 1](docs/viikkoraportti_1.md)
+[Viikkoraportti 1](docs/viikkoraportti_2.md)
