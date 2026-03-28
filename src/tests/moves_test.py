@@ -1,4 +1,5 @@
 import unittest
+import movesets
 from board import ChessBoard
 from moves import move
 
@@ -69,3 +70,22 @@ class TestMove(unittest.TestCase):
         result = move(self.board, where, to)
         self.assertTrue(result)
         self.assertEqual(self.board.pieces_location[to], "white_pawn")
+
+    def test_fools_mate(self):
+        """Testaa shakin mahdollisimman nopeasti kuningattaren avulla."""
+        where, to = self.squarehelper("f2f3")
+        result = move(self.board, where, to)
+        self.assertTrue(result)
+
+        where, to = self.squarehelper("e7e5")
+        result = move(self.board, where, to)
+        self.assertTrue(result)
+
+        where, to = self.squarehelper("g2g4")
+        result = move(self.board, where, to)
+        self.assertTrue(result)
+
+        where, to = self.squarehelper("d8h4")
+        result = move(self.board, where, to)
+        self.assertTrue(result)
+        self.assertTrue(movesets.checked(self.board))

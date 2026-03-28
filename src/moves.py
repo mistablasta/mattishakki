@@ -89,7 +89,7 @@ def move(board, where, to):
 
     return True
 
-def check_legality(board, where, to):
+def check_legality(board, where, to): #pylint: disable=too-many-return-statements
     """Tarkistaa siirron laillisuuden.
     
     Args:
@@ -97,14 +97,6 @@ def check_legality(board, where, to):
         to: tavoiteruutu
     """
     target = board.pieces_location[where]
-    target_bitboard = 1 << where
-
-    if board.white_turn:
-        friendly_bitboard = board.white_board
-        opponent_bitboard = board.black_board
-    else:
-        friendly_bitboard = board.black_board
-        opponent_bitboard = board.white_board
 
     if target is None:
         return False
@@ -112,16 +104,32 @@ def check_legality(board, where, to):
     if not is_own_piece(board, where):
         return False
 
+    if movesets.checked(board):
+        print("CHECK!")
+        return False
+
     if "knight" in target:
-        moves = movesets.knight_moves(target_bitboard, friendly_bitboard)
-        return bool(moves & (1 << to))
+        moves = movesets.knight_moves(board)
+        return (where, to) in moves
 
     if "king" in target:
-        moves = movesets.king_moves(target_bitboard, friendly_bitboard)
-        return bool(moves & (1 << to))
+        moves = movesets.king_moves(board)
+        return (where, to) in moves
 
     if "pawn" in target:
-        moves = movesets.pawn_moves(target_bitboard, friendly_bitboard,
-                                    opponent_bitboard, board.white_turn)
-        return bool(moves & (1 << to))
+        moves = movesets.pawn_moves(board)
+        return (where, to) in moves
+
+    if "rook" in target:
+        moves = movesets.rook_moves(board)
+        return (where, to) in moves
+
+    if "bishop" in target:
+        moves = movesets.bishop_moves(board)
+        return (where, to) in moves
+
+    if "queen" in target:
+        moves = movesets.queen_moves(board)
+        return (where, to) in moves
+
     return False
