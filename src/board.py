@@ -1,3 +1,5 @@
+import copy
+
 class ChessBoard: # pylint: disable=too-many-instance-attributes
     """Shakkilaudan peruslogiikka"""
     def __init__(self):
@@ -28,6 +30,10 @@ class ChessBoard: # pylint: disable=too-many-instance-attributes
         self.white_turn = True
         self.update_board()
         self.update_location()
+
+    def copy(self):
+        """Palauttaa kopion laudasta"""
+        return copy.deepcopy(self)
 
     def update_board(self):
         """Päivittää laudan tilan."""
