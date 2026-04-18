@@ -8,15 +8,13 @@ def play_human_vs_human():
     board = ChessBoard()
     board.print_gameboard()
     print("Welcome to Chess! Type help for instructions.")
-    print("--------------------")
     while True:
         move_manual(board)
 
 def play_human_vs_ai(): #pylint: disable=too-many-statements
     board = ChessBoard()
     board.print_gameboard()
-    print("Welcome to Chess! You are White. Type help for instructions.")
-    print("--------------------")
+    print("Welcome to Chess! Type help for instructions.")
 
     while True: #pylint: disable=too-many-nested-blocks
         if board.white_turn:

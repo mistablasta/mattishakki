@@ -1,5 +1,3 @@
-import copy
-
 class ChessBoard: # pylint: disable=too-many-instance-attributes
     """Shakkilaudan peruslogiikka"""
     def __init__(self):
@@ -18,12 +16,18 @@ class ChessBoard: # pylint: disable=too-many-instance-attributes
         self.black_queen = 0x800000000000000
         self.black_king = 0x1000000000000000
 
+        self.white_board = 0
+        self.black_board = 0
+        self.combined_board = 0
+
+
         self.pieces = {
-            "♙": "white_pawn", "♖": "white_rook", "♘": "white_knight",
-            "♗": "white_bishop", "♕": "white_queen", "♔": "white_king", 
-            "♟": "black_pawn", "♜": "black_rook", "♞": "black_knight",
-            "♝": "black_bishop", "♛": "black_queen", "♚": "black_king" 
+            "♙": "black_pawn", "♖": "black_rook", "♘": "black_knight",
+            "♗": "black_bishop", "♕": "black_queen", "♔": "black_king", 
+            "♟": "white_pawn", "♜": "white_rook", "♞": "white_knight",
+            "♝": "white_bishop", "♛": "white_queen", "♚": "white_king" 
         }
+
 
         self.pieces_location = [None] * 64
 
@@ -33,7 +37,28 @@ class ChessBoard: # pylint: disable=too-many-instance-attributes
 
     def copy(self):
         """Palauttaa kopion laudasta"""
-        return copy.deepcopy(self)
+        new_board = ChessBoard.__new__(ChessBoard)
+
+        new_board.white_pawn = self.white_pawn
+        new_board.white_rook = self.white_rook
+        new_board.white_knight = self.white_knight
+        new_board.white_bishop = self.white_bishop
+        new_board.white_queen = self.white_queen
+        new_board.white_king = self.white_king
+        new_board.black_pawn = self.black_pawn
+        new_board.black_rook = self.black_rook
+        new_board.black_knight = self.black_knight
+        new_board.black_bishop = self.black_bishop
+        new_board.black_queen = self.black_queen
+        new_board.black_king = self.black_king
+        new_board.white_board = self.white_board
+        new_board.black_board = self.black_board
+        new_board.combined_board = self.combined_board
+        new_board.pieces_location = self.pieces_location.copy()
+        new_board.white_turn = self.white_turn
+        new_board.pieces = self.pieces
+
+        return new_board
 
     def update_board(self):
         """Päivittää laudan tilan."""

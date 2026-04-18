@@ -27,6 +27,8 @@ def input_to_coordinates():
         moveinput = input("Make your move: ")
         if moveinput.lower() == "help":
             print("Moving a piece example command: e2e4")
+            print("Launch the program with the --ai flag to play against a virtual opponent.")
+            print("The depth of the AI can be changed in the main.py file at line 24. Default 3")
             continue
         if len(moveinput) != 4:
             print(error_message)

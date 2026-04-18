@@ -1,7 +1,8 @@
 import unittest
-import movesets
 from board import ChessBoard
 from moves import move
+from ai import get_best_move, get_board_score
+from moves import is_checkmate
 
 class TestMove(unittest.TestCase):
     def setUp(self):
@@ -46,6 +47,63 @@ class TestMove(unittest.TestCase):
         self.assertEqual(self.board.pieces_location[where], "white_knight")
         self.assertEqual(self.board.pieces_location[to], "white_pawn")
 
+    def test_all_pieces_move_once(self):
+        where, to = self.squarehelper("e2e4")
+        result = move(self.board, where, to)
+        self.assertTrue(result)
+
+        where, to = self.squarehelper("e7e5")
+        result = move(self.board, where, to)
+        self.assertTrue(result)
+
+        where, to = self.squarehelper("g1f3")
+        result = move(self.board, where, to)
+        self.assertTrue(result)
+
+        where, to = self.squarehelper("b8c6")
+        result = move(self.board, where, to)
+        self.assertTrue(result)
+
+        where, to = self.squarehelper("f1c4")
+        result = move(self.board, where, to)
+        self.assertTrue(result)
+
+        where, to = self.squarehelper("f8c5")
+        result = move(self.board, where, to)
+        self.assertTrue(result)
+
+        where, to = self.squarehelper("d1e2")
+        result = move(self.board, where, to)
+        self.assertTrue(result)
+
+        where, to = self.squarehelper("d8e7")
+        result = move(self.board, where, to)
+        self.assertTrue(result)
+
+        where, to = self.squarehelper("a2a4")
+        result = move(self.board, where, to)
+        self.assertTrue(result)
+
+        where, to = self.squarehelper("a7a5")
+        result = move(self.board, where, to)
+        self.assertTrue(result)
+
+        where, to = self.squarehelper("a1a3")
+        result = move(self.board, where, to)
+        self.assertTrue(result)
+
+        where, to = self.squarehelper("a8a6")
+        result = move(self.board, where, to)
+        self.assertTrue(result)
+
+        where, to = self.squarehelper("e1f1")
+        result = move(self.board, where, to)
+        self.assertTrue(result)
+
+        where, to = self.squarehelper("e8f8")
+        result = move(self.board, where, to)
+        self.assertTrue(result)
+
     def test_pawn_move_and_capture(self):
         """Liikuttaa valkoisen, sekä mustan sotilaan kaksi askelta. Yrittää uudestaan, sen jälkeen syö mustan sotilaan valkoisella."""
         where, to = self.squarehelper("e2e4")
@@ -72,7 +130,7 @@ class TestMove(unittest.TestCase):
         self.assertEqual(self.board.pieces_location[to], "white_pawn")
 
     def test_fools_mate(self):
-        """Testaa shakin mahdollisimman nopeasti kuningattaren avulla."""
+        """Testaa shakkimatin mahdollisimman nopeasti kuningattaren avulla."""
         where, to = self.squarehelper("f2f3")
         result = move(self.board, where, to)
         self.assertTrue(result)
@@ -88,4 +146,54 @@ class TestMove(unittest.TestCase):
         where, to = self.squarehelper("d8h4")
         result = move(self.board, where, to)
         self.assertTrue(result)
-        self.assertTrue(movesets.checked(self.board))
+        self.assertTrue(is_checkmate(self.board))
+
+    def test_ai_notices_fools_mate(self):
+        where, to = self.squarehelper("f2f3")
+        result = move(self.board, where, to)
+        self.assertTrue(result)
+
+        where, to = self.squarehelper("e7e5")
+        result = move(self.board, where, to)
+        self.assertTrue(result)
+
+        where, to = self.squarehelper("g2g4")
+        result = move(self.board, where, to)
+        self.assertTrue(result)
+
+        ai_move = get_best_move(self.board)
+        expected = self.squarehelper("d8h4")
+        self.assertEqual(ai_move, expected)
+
+    def test_no_checkmate_at_start(self):
+        """Tarkistaa, ettei ole shakkimattia alkutilanteessa"""
+        self.assertFalse(is_checkmate(self.board))
+
+    def test_initial_board_score(self):
+        """Testaa laudan pisteytyksen alkutilanteessa."""
+        score = get_board_score(self.board)
+        self.assertEqual(score, 0)
+
+    def test_king_cannot_move_into_check(self):
+        """Varmistaa, että kuningas ei voi liikkua shakkiin."""
+        where, to = self.squarehelper("e2e4")
+        result = move(self.board, where, to)
+        self.assertTrue(result)
+        self.board.white_turn = True
+
+        where, to = self.squarehelper("e1e2")
+        result = move(self.board, where, to)
+        self.assertTrue(result)
+
+        where, to = self.squarehelper("c7c6")
+        result = move(self.board, where, to)
+        self.assertTrue(result)
+        self.board.white_turn = False
+
+        where, to = self.squarehelper("d8b6")
+        result = move(self.board, where, to)
+        self.assertTrue(result)
+
+        where, to = self.squarehelper("e2e3")
+        result = move(self.board, where, to)
+        self.assertFalse(result)

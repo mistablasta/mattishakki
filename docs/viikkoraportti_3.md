@@ -5,5 +5,6 @@ Ensi viikon suunnitelma on refaktoroida movesets.py, sillä se on todella sotkui
 
 ### Käytetyt tunnit
 Perjantai 27.3 3h - Kuninkaan, sotilaan ja ratsun refaktorointia.
+
 Lauantai 28.3 4h - Liukuvat nappulat, shakin tarkastaminen, movesets.py refaktorointia. Raportointi.
 

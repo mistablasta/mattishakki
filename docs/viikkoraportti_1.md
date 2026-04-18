@@ -10,4 +10,5 @@ Suunnitelmana on myös syventyä testaus- ja dokumentointiohjeisiin enemmän enn
 
 ### Käytetyt tunnit
 Torstai, 12.3 - 2 h, kurssimateriaalin ja aiheen tutkiminen, määrittelydokumentin tekoa.
+
 Perjantai, 13.3 - 2h, aiheen tutkiminen, määrittelydokumentin ja viikkoraportin viimeistely.

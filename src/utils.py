@@ -9,7 +9,7 @@ def lsb_helper(piece_bitboard, move_bitboard, own_board, movelist):
     while piece_bitboard:
         lsb = piece_bitboard & -piece_bitboard
         where = lsb.bit_length() - 1
-        targets = move_bitboard[where] & own_board
+        targets = move_bitboard[where] & own_board & 0xFFFFFFFFFFFFFFFF
         target_bitboard = targets
         while target_bitboard:
             lsb_to = target_bitboard & -target_bitboard
@@ -29,6 +29,7 @@ def check_edges(current, direction):
         True, jos ruudusta ei voi liikkua reunan ylityksen seurauksena.
     """
     file = current % 8
+
     return (
         (direction == 1 and file == 7) or
         (direction == -1 and file == 0) or

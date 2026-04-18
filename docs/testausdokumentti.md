@@ -15,7 +15,13 @@ Testaa erilaisia liikkeitä laudalla, ja varmistaa, että nappulat liikkuvat, sy
 
 **test_pawn_move_and_capture** - Liikuttaa valkoisen, sekä mustan sotilaan kaksi askelta. Yrittää uudestaan, sen jälkeen syö mustan sotilaan valkoisella.
 
-**test_fools_mate** - Testaa shakin mahdollisimman nopeasti kuningattaren avulla.
+**test_fools_mate** - Testaa shakkimatin mahdollisimman nopeasti kuningattaren avulla.
+
+**test_no_checkmate_at_start** - Tarkistaa, ettei ole shakkimattia alkutilanteessa
+
+**test_initial_board_score** - Testaa laudan pisteytyksen alkutilanteessa.
+
+**test_king_cannot_move_into_check** - Varmistaa, että kuningas ei voi liikkua shakkiin.
 
 ### Kattavuusraportti
 [![codecov](https://codecov.io/gh/mistablasta/mattishakki/graph/badge.svg?token=OLBMUSIGFU)](https://codecov.io/gh/mistablasta/mattishakki)
