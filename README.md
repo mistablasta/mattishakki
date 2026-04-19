@@ -21,7 +21,7 @@
 [Viikkoraportti 5](docs/viikkoraportti_5.md)
 
 ### Guide
-Install project depencies with poetry
+Install project dependencies with poetry
 ```
 poetry install
 ```
