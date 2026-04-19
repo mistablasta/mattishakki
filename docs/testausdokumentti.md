@@ -1,8 +1,7 @@
 # Testausraportti
 Testaus on toteutettu unittest kirjaston avulla. Testit ovat luokiteltuna omiin kategorioihin sijainnissa src/tests.\
-Testit voidaan suorittaa paikallisesti poetryn virtuaaliympäristössä komennolla pytest src
 
-Koodin laatua ylläpidetään pylintin avulla. pylint ja pytest suoritetaan GitHubin actionsin avulla pilvessä, kun branchia päivitetään.
+Koodin laatua ylläpidetään pylintin avulla. pylint ja testit suoritetaan GitHubin actionsin avulla pilvessä automaattisesti, kun branchia päivitetään.
 
 ### moves_test.py
 Testaa erilaisia liikkeitä laudalla, ja varmistaa, että nappulat liikkuvat, syövät ja mahdollisesti aiheuttaa shakin pelin sääntöjen mukaisesti.
@@ -25,3 +24,12 @@ Testaa erilaisia liikkeitä laudalla, ja varmistaa, että nappulat liikkuvat, sy
 
 ### Kattavuusraportti
 [![codecov](https://codecov.io/gh/mistablasta/mattishakki/graph/badge.svg?token=OLBMUSIGFU)](https://codecov.io/gh/mistablasta/mattishakki)
+
+### Testien suorittaminen
+Testit voi suorittaa paikallisesti projektin ympäristössä komennoilla
+```
+pytest src
+```
+```
+pylint src
+```

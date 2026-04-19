@@ -54,7 +54,7 @@ class ChessBoard: # pylint: disable=too-many-instance-attributes
         new_board.white_board = self.white_board
         new_board.black_board = self.black_board
         new_board.combined_board = self.combined_board
-        new_board.pieces_location = self.pieces_location.copy()
+        new_board.pieces_location = self.pieces_location[:]
         new_board.white_turn = self.white_turn
         new_board.pieces = self.pieces
 

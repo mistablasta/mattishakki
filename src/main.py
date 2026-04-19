@@ -1,4 +1,5 @@
 import sys
+import time
 from board import ChessBoard
 from moves import move_manual, is_checkmate
 from ai import get_best_move
@@ -11,40 +12,80 @@ def play_human_vs_human():
     while True:
         move_manual(board)
 
-def play_human_vs_ai(): #pylint: disable=too-many-statements
+def play_human_vs_ai(debug=False):
     board = ChessBoard()
+    ai_depth = int(input("Depth of your AI opponent (3 is default): "))
     board.print_gameboard()
     print("Welcome to Chess! Type help for instructions.")
 
-    while True: #pylint: disable=too-many-nested-blocks
+    while True:
+        if is_checkmate(board):
+            winner = "AI" if board.white_turn else "WHITE"
+            print("CHECKMATE!", winner, "WINS!")
+            break
+
         if board.white_turn:
             move_manual(board)
         else:
             print("AI is thinking...")
-            best = get_best_move(board, depth=3)
-            if best:
-                moves.move_ai(board, *best)
-                board.print_gameboard()
-                if moves.movesets.checked(board):
-                    if is_checkmate(board):
-                        print("CHECKMATE! AI WINS!")
-                    else:
-                        print("CHECK!")
-            else:
-                if is_checkmate(board):
-                    print("CHECKMATE! WHITE WINS!")
-                else:
-                    print("STALEMATE!")
+            if debug:
+                start = time.perf_counter()
+            best = get_best_move(board, depth=ai_depth)
+            if debug:
+                stop = time.perf_counter()
+                print("Move took", stop-start, "seconds.")
+
+            if not best:
+                print("STALEMATE!")
                 break
 
+            moves.move_ai(board, *best)
+
+        board.print_gameboard()
+
+def play_ai_vs_ai(debug=False):
+    board = ChessBoard()
+
+    white_depth = int(input("Depth of the first AI: "))
+    black_depth = int(input("Depth of the second AI: "))
+
+    board.print_gameboard()
+    print("Welcome to Chess! Type help for instructions.")
+
+
+    while True:
         if is_checkmate(board):
-            winner = "AI" if board.white_turn else "WHITE"
-            print("CHECKMATE! " + winner + " WINS!")
+            winner = "BLACK" if board.white_turn else "WHITE"
+            print("CHECKMATE!", winner, "WINS!")
             break
 
-# Suorita ohjelma --ai flagilla pelataaksesi tekoälyä vastaan.
+
+        print("AI is thinking...")
+        if debug:
+            start = time.perf_counter()
+        best = get_best_move(board, depth=white_depth if board.white_turn else black_depth)
+        if debug:
+            stop = time.perf_counter()
+            print("Move took", stop-start, "seconds.")
+
+        if not best:
+            print("STALEMATE!")
+            break
+
+        moves.move_ai(board, *best)
+        board.print_gameboard()
+
+
+
 if __name__ == "__main__":
+    if "--debug" in sys.argv:
+        toggle = True
+    else:
+        toggle = False
+
     if "--ai" in sys.argv:
-        play_human_vs_ai()
+        play_human_vs_ai(debug=toggle)
+    elif "--battle" in sys.argv:
+        play_ai_vs_ai(debug=toggle)
     else:
         play_human_vs_human()

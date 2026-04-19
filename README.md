@@ -19,3 +19,20 @@
 [Viikkoraportti 4](docs/viikkoraportti_4.md)
 
 [Viikkoraportti 5](docs/viikkoraportti_5.md)
+
+### Guide
+Install project depencies with poetry
+```
+poetry install
+```
+
+Run the application with
+```
+python src/main.py (player vs player)
+```
+```
+python src/main.py --ai (player vs ai)
+```
+```
+python src/main.py --battle (ai vs ai)
+```
