@@ -78,14 +78,11 @@ def play_ai_vs_ai(debug=False):
 
 
 if __name__ == "__main__":
-    if "--debug" in sys.argv:
-        toggle = True
-    else:
-        toggle = False
+    TOGGLE = "--debug" in sys.argv
 
     if "--ai" in sys.argv:
-        play_human_vs_ai(debug=toggle)
+        play_human_vs_ai(debug=TOGGLE)
     elif "--battle" in sys.argv:
-        play_ai_vs_ai(debug=toggle)
+        play_ai_vs_ai(debug=TOGGLE)
     else:
         play_human_vs_human()
