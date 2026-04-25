@@ -20,6 +20,8 @@
 
 [Viikkoraportti 5](docs/viikkoraportti_5.md)
 
+[Viikkoraportti 6](docs/viikkoraportti_6.md)
+
 ### Guide
 Install project dependencies with poetry
 ```
@@ -35,4 +37,8 @@ python src/main.py --ai (player vs ai)
 ```
 ```
 python src/main.py --battle (ai vs ai)
+```
+All manual moves are entered in the following example format
+```
+e2e4
 ```

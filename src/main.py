@@ -14,7 +14,7 @@ def play_human_vs_human():
 
 def play_human_vs_ai(debug=False):
     board = ChessBoard()
-    ai_depth = int(input("Depth of your AI opponent (3 is default): "))
+    ai_depth = int(input("Depth of your AI opponent (4 is default): "))
     board.print_gameboard()
     print("Welcome to Chess! Type help for instructions.")
 
@@ -30,7 +30,7 @@ def play_human_vs_ai(debug=False):
             print("AI is thinking...")
             if debug:
                 start = time.perf_counter()
-            best = get_best_move(board, depth=ai_depth)
+            best = get_best_move(board, max_depth=ai_depth)
             if debug:
                 stop = time.perf_counter()
                 print("Move took", stop-start, "seconds.")
@@ -63,7 +63,7 @@ def play_ai_vs_ai(debug=False):
         print("AI is thinking...")
         if debug:
             start = time.perf_counter()
-        best = get_best_move(board, depth=white_depth if board.white_turn else black_depth)
+        best = get_best_move(board, max_depth=white_depth if board.white_turn else black_depth)
         if debug:
             stop = time.perf_counter()
             print("Move took", stop-start, "seconds.")

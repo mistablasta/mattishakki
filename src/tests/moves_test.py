@@ -48,6 +48,7 @@ class TestMove(unittest.TestCase):
         self.assertEqual(self.board.pieces_location[to], "white_pawn")
 
     def test_all_pieces_move_once(self):
+        """Liikuttaa kaikkia nappuloita ainakin kerran"""
         where, to = self.squarehelper("e2e4")
         result = move(self.board, where, to)
         self.assertTrue(result)

@@ -1,5 +1,5 @@
-import random
 import moves
+from movesets import checked
 
 PIECE_VALUES = {
     'pawn': 100,
@@ -75,8 +75,8 @@ def get_piece_value(board, square):
     piecemap = PIECE_LOCATION_VALUES[piece]
 
     if color == "white":
-        return (piecemap[square]) + PIECE_VALUES[piece]
-    return -(piecemap[square ^ 56] + PIECE_VALUES[piece])
+        return piecemap[square ^ 56] + PIECE_VALUES[piece]
+    return -(piecemap[square] + PIECE_VALUES[piece])
 
 def get_board_score(board):
     """Palauttaa nykyisen laudantilan pisteet. Valkoiset positiivisena, mustat negatiivisena."""
@@ -86,7 +86,7 @@ def get_board_score(board):
 
     return score
 
-def minimax(board, depth, alpha, beta, maximizing):
+def minimax(board, depth, alpha, beta, maximizing): #pylint: disable=too-many-statements
     """Hyvin yksinkertainen minimax AB karsinnalla.
 
     Args:
@@ -98,15 +98,41 @@ def minimax(board, depth, alpha, beta, maximizing):
     Returns:
         laudan evaluaatio halutulla syvyydellä.
     """
+    if checked(board):
+        legal_moves = moves.get_legal_moves(board)
+        if not legal_moves:
+            return -1000000 if maximizing else 1000000
+    else:
+        if depth == 0:
+            return get_board_score(board)
+
+        legal_moves = moves.get_legal_moves(board)
+        if not legal_moves:
+            return 0
+
     if depth == 0:
         return get_board_score(board)
 
-    if moves.is_checkmate(board):
-        return -1000000 if maximizing else 1000000
+    def move_priority(board, move):
+        """Järjestää nappulat AB karsintaa varten. Syötävän arvo - syöjän arvo on päämäärittäjä, 
+        jos liike ei ole syövä niin liikkuvan nappulan arvoa prioritisoidaan."""
+        where, to = move
 
-    legal_moves = moves.get_legal_moves(board)
-    if not legal_moves:
-        return 0
+        target = board.pieces_location[to]
+        mover = board.pieces_location[where]
+
+        if target is not None:
+            target_piece = target.split("_")[1]
+            mover_piece = mover.split("_")[1]
+            return (2, PIECE_VALUES[target_piece], -PIECE_VALUES[mover_piece])
+
+        if mover is not None:
+            mover_piece = mover.split("_")[1]
+            return (1, PIECE_VALUES[mover_piece])
+
+        return (0,0)
+
+    legal_moves.sort(key=lambda m: move_priority(board, m), reverse=True)
 
     if maximizing:
         max_eval = -float('inf')
@@ -131,38 +157,54 @@ def minimax(board, depth, alpha, beta, maximizing):
             break
     return min_eval
 
-def get_best_move(board, depth=3):
+def get_best_move(board, max_depth=4): #pylint: disable=too-many-statements
     """ Kertoo parhaan laillisen siirron nykyiselle pelaajalle minimaxilla.
     
     Returns:
         best_move: paras siirto pelaajalle.
     """
     legal_moves = moves.get_legal_moves(board)
+    print("LEGAL MOVES:", legal_moves)
     if not legal_moves:
         return None
 
-    best_move = []
-    if board.white_turn:
-        best_val = -float('inf')
-        for move in legal_moves:
-            board_copy = board.copy()
-            moves.move_ai(board_copy, move[0], move[1])
-            val = minimax(board_copy, depth - 1, -float('inf'), float('inf'), False)
-            if val > best_val:
-                best_val = val
-                best_move = [move]
-            elif val == best_val:
-                best_move.append(move)
-    else:
-        best_val = float('inf')
-        for move in legal_moves:
-            board_copy = board.copy()
-            moves.move_ai(board_copy, move[0], move[1])
-            val = minimax(board_copy, depth - 1, -float('inf'), float('inf'), True)
-            if val < best_val:
-                best_val = val
-                best_move = [move]
-            elif val == best_val:
-                best_move.append(move)
+    depth = 1
+    best_move = None
 
-    return random.choice(best_move)
+    for depth in range(1, max_depth + 1):
+        if best_move is not None:
+            ordered = [best_move] + [move for move in legal_moves if move != best_move]
+        else:
+            ordered = legal_moves
+
+        ongoing_best = None
+        alpha = -float('inf')
+        beta = float('inf')
+
+        if board.white_turn:
+            best_val = -float('inf')
+            for move in ordered:
+                board_copy = board.copy()
+                moves.move_ai(board_copy, move[0], move[1])
+                val = minimax(board_copy, depth - 1, alpha, beta, False)
+                if val > best_val:
+                    best_val = val
+                    ongoing_best = move
+                alpha = max(alpha, val)
+        else:
+            best_val = float('inf')
+            for move in ordered:
+                board_copy = board.copy()
+                moves.move_ai(board_copy, move[0], move[1])
+                val = minimax(board_copy, depth - 1, alpha, beta, True)
+                if val < best_val:
+                    best_val = val
+                    ongoing_best = move
+                beta = min(beta, val)
+
+        if ongoing_best is not None:
+            best_move = ongoing_best
+        else:
+            break
+        depth += 1
+    return best_move

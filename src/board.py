@@ -81,18 +81,23 @@ class ChessBoard: # pylint: disable=too-many-instance-attributes
                     break
 
     def print_gameboard(self):
-        """Tulostaa pelaajalle shakkilaudan. Pelinäkymä, ei käytetä sisäisessä logiikassa."""
-        for rank in range(7, -1, -1): # pylint: disable=too-many-nested-blocks
-            line = ""
+        """Tulostaa pelaajalle shakkilaudan."""
+        files = "A      B      C      D      E      F      G      H"
+        print("  +" + "------+" * 8)
+
+        for rank in range(7, -1, -1):
+            line = f"{rank + 1} |"
             for file in range(8):
                 square = 1 << (rank * 8 + file)
                 for symbol, bitboard in self.pieces.items():
                     if square & getattr(self, bitboard):
-                        line += symbol + "    "
+                        line += f"  {symbol}   |"
                         break
                 else:
-                    line += ".    "
+                    line += "  .   |"
             print(line)
+            print("  +" + "------+" * 8)
+        print("    " + files)
         if self.white_turn:
             print("PLAYER 1's TURN")
         else:

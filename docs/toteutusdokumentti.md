@@ -8,3 +8,18 @@ Shakkilauta toimii bitboardeilla, jotka sallivat nopean liikegeneraation ja siir
 
 ### Algoritmi
 Shakin vastustajana on minimax algoritmi. Algoritmi yksinkertaisuudessaan painottaa tilanteita, missä huonoin mahdollinen tapahtuma aiheuttaa vähiten vahinkoa. Shakin tilanteessa tapahtumia painotetaan mm. nappuloiden ominaisarvoilla, sekä vaihtuvalla pisteytyksellä riippuen nappulan sijainnista. Algoritmi käy läpi kaikki pelilaudan lailliset siirrot ja valitsee niistä parhaimman. Korkeammilla syvyyksillä analysoituja laudantiloja käydäänn läpi rekursiivisesti haluttuun syvyteen asti. Algoritmi "ajattelee eteenpäin". Siirtojen määrät kasvavat nopeasti pienilläkin syvyyksillä, joten algoritmi käyttää Alpha-Beta karsintaa pelitilojen leikkaamiseksi. Karsinnan avulla algoritmi ei ota huomioon siirtoja, jotka ovat jo varmasti huonompia kuin jo siihen mennessä löydetty paras siirto.
+
+## Saavutetut aika- ja tilavaativuudet
+
+## Puutteet ja parannusehdotukset
+Shakkilogiikasta puutuu oleellisia osia, kuten en passant ja tornitus. Tasapeli aiheutuu vain liikkeiden puutteesta, ei toistuvista liikkeistä.
+
+## Laajojen kielimallien käyttö
+Laajaa kielimallia (DeepSeek) on käytetty bitboardien ja bittioperaatioiden havainnollistamiseen sekä yleisiin optimisaatiovinkkeihin shakin ydinlogiikassa, kuten deepcopyn välttäminen projektin alkuvaiheessa.
+
+## Käytety lähteet
+https://www.chessprogramming.org/Main_Page - Tärkein lähde
+
+https://en.wikipedia.org/wiki/Minimax, https://stackoverflow.com/questions/59608390/python-deep-copy-in-minimax-function
+
+https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning, https://www.geeksforgeeks.org/artificial-intelligence/alpha-beta-pruning-in-adversarial-search-algorithms/
