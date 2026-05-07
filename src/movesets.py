@@ -3,7 +3,9 @@ from utils import lsb_helper, sliding_pieces, sliding_attacks_check
 # Kaikki ruudut paitsi oikea reuna, ja vasen reuna.
 # Käytetään maskeina, jotta nappulat eivät hyppää reunasta reunaan.
 NOT_A_FILE = 0xfefefefefefefefe
+NOT_AB_FILE = 0xfcfcfcfcfcfcfcfc
 NOT_H_FILE = 0x7f7f7f7f7f7f7f7f
+NOT_GH_FILE = 0x3f3f3f3f3f3f3f3f
 
 # Sijainnit jotka määrittelee, voiko sotilaat liikkua kaksi ruutua.
 WHITE_PAWN_RANK = 0x000000000000ff00
@@ -22,11 +24,11 @@ for i in range(64):
     moves |= ((bitboard & NOT_A_FILE) >> 17)                               # Alas-vasemmalle
     moves |= ((bitboard & NOT_H_FILE) >> 15)                               # Alas-oikealle
 
-    moves |= ((bitboard & NOT_H_FILE) << 10)                               # Oikealle-ylös
-    moves |= ((bitboard & NOT_A_FILE) << 6)                                # Vasemmalle-ylös
+    moves |= ((bitboard & NOT_AB_FILE) << 10)                               # Oikealle-ylös
+    moves |= ((bitboard & NOT_GH_FILE) << 6)                                # Vasemmalle-ylös
 
-    moves |= ((bitboard & NOT_H_FILE) >> 10)                               # Oikealle-alas
-    moves |= ((bitboard & NOT_A_FILE) >> 6)                                # Vasemmalle-alas
+    moves |= ((bitboard & NOT_AB_FILE) >> 10)                               # Oikealle-alas
+    moves |= ((bitboard & NOT_GH_FILE) >> 6)                                # Vasemmalle-alas
 
     KNIGHT_BITBOARD[i] = moves & 0xFFFFFFFFFFFFFFFF
 # -------------------------------------------------------------------------------------------

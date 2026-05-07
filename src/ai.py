@@ -164,7 +164,6 @@ def get_best_move(board, max_depth=4): #pylint: disable=too-many-statements
         best_move: paras siirto pelaajalle.
     """
     legal_moves = moves.get_legal_moves(board)
-    print("LEGAL MOVES:", legal_moves)
     if not legal_moves:
         return None
 
@@ -206,5 +205,4 @@ def get_best_move(board, max_depth=4): #pylint: disable=too-many-statements
             best_move = ongoing_best
         else:
             break
-        depth += 1
     return best_move
