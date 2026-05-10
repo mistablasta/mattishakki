@@ -22,7 +22,7 @@
 
 [Viikkoraportti 6](docs/viikkoraportti_6.md)
 
-### Guide
+### Manual
 Install project dependencies with poetry
 ```
 poetry install
@@ -40,5 +40,6 @@ python src/main.py --battle (ai vs ai)
 ```
 All manual moves are entered in the following example format
 ```
-e2e4
+e2e4 (where, to)
 ```
+Use the --debug flag to make AI move timings visible for performance tracking.

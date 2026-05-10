@@ -63,7 +63,7 @@ class TestMove(unittest.TestCase):
         self.assertEqual(ai_move, expected)
         
     def test_ai_uses_promotion(self):
-        "Testaa, käyttääkö algoritmi ylentämistä."
+        "Testaa, käyttääkö algoritmi ylentämistä ja varmistaa, että se vaikuttaa evaluaatioon."
 
         for attr in ['white_pawn', 'white_rook', 'white_knight', 'white_bishop', 'white_queen', 'white_king',
                     'black_pawn', 'black_rook', 'black_knight', 'black_bishop', 'black_queen', 'black_king']:
@@ -77,9 +77,19 @@ class TestMove(unittest.TestCase):
         self.board.update_board()
         self.board.update_location()
 
+        eval_expected = 140
+        eval = minimax(self.board, 0, -float("inf"), float("inf"), False)
+        self.assertEqual(eval, eval_expected)
+
         ai_move = get_best_move(self.board, max_depth=4)
         expected = (55, 63)
         self.assertEqual(ai_move, expected)
+        where, to = ai_move
+        move(self.board, where, to)
+
+        eval_expected = 870
+        eval = minimax(self.board, 0, -float("inf"), float("inf"), False)
+        self.assertEqual(eval, eval_expected)
 
 
     def test_ai_finds_mate_in_two(self):

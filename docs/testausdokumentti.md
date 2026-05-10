@@ -1,5 +1,5 @@
 # Testausraportti
-Testaus on toteutettu unittest kirjaston avulla. Testit ovat luokiteltuna omiin kategorioihin sijainnissa src/tests.\
+Testaus on toteutettu unittest kirjaston avulla. Testit ovat luokiteltuna omiin kategorioihin sijainnissa src/tests.
 
 Koodin laatua ylläpidetään pylintin avulla. pylint ja testit suoritetaan GitHubin actionsin avulla pilvessä automaattisesti, kun branchia päivitetään.
 
@@ -27,15 +27,24 @@ Syötteet ovat kaikki siirtoja laudalla, jotka prosessoidaan normaalin pelin kul
 **test_king_cannot_move_into_check** - Varmistaa, että kuningas ei voi liikkua shakkiin.
 
 ### ai_test.py
-Testaa algoritmin toimintaa. Ideana on tarkistaa, että algoritmi löytää pakotettuja pelin lopetuksia monen siirron takaa.
+Testaa algoritmin toimintaa. Ideana on tarkistaa, että algoritmi löytää pakotettuja pelin lopetuksia monen siirron takaa. Myös ylennystä testataan, jotta algoritmi osaa käyttää sitä siirtojen generoimisessa oikeaoppisesti.
 
-Testeissä laudan tila alustetaan haluttuihin tilanteisiin, josta eteepäin algoritmin suositelmia parhaita siirtoja verrataan ennalta tiedettyihin parhaisiin siirtoihin.
+Testeissä laudan tila alustetaan haluttuihin tilanteisiin, josta eteepäin algoritmin suositelmia parhaita siirtoja ja evaluaatioarvoja verrataan ennalta tiedettyihin parhaisiin siirtoihin ja evaluaatioihin.
 
-**def test_ai_finds_mate_in_two** - Testaa, löytääkö algoritmi pakotetun shakin kahdella siirrolla.
+**test_capture_board_evaluation** - Testaa, löytääkö algoritmin ilmaisen syönnin ja varmistaa sen vaikutuksen laudan evaluaatioon vertailemalla sitä ennalta laskettuihin evaluaatioihin ennen ja jälkeen siirron
+
+**test_ai_defends_mate** - Testaa, puolustaako algoritmi helppoa shakkimattia vastaan.
+
+![Kuva alkutilanteesta](defence.png)
+
+**test_ai_uses_promotion** - Testaa, käyttääkö algoritmi ylentämistä ja varmistaa, että se vaikuttaa evaluaatioon oikeaoppisesti.
+
+**test_ai_finds_mate_in_two** - Testaa, löytääkö algoritmi pakotetun shakkimatin kahdella siirrolla. Varmistaa myös, että laudan evaluaatio on halutussa arvossa (1000000).
+
 ![Kuva alkutilanteesta](mate_in_two.png)
 
+**test_ai_finds_mate_in_three** - Testaa, löytääkö algoritmi pakotetun shakkimatin kolmella siirrolla. Varmistaa myös, että laudan evaluaatio on halutussa arvossa (1000000).
 
-**def test_ai_finds_mate_in_three** - Testaa, löytääkö algoritmi pakotetun shakin kolmella siirrolla.
 ![Kuva alkutilanteesta](mate_in_three.png)
 
 
