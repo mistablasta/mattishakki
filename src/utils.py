@@ -73,7 +73,18 @@ def sliding_pieces(where, directions, own_board, opponent_board, movelist):
 
 
 def sliding_attacks_check(where, directions, own_board, opponent_board, combined_board):
-    """Kertoo, maalaako joku liukuva nappula valittua ruutua. Käytetään shakin tarkastamisessa."""
+    """Kertoo, maalaako joku liukuva nappula valittua ruutua. Käytetään shakin tarkastamisessa.
+    
+    Args:
+        where: lähtöruutu
+        directions: nappulan suunnat (torni, lähetti vai kuningatar)
+        own_board: oman laudan bitboard
+        opponent_board: vastustajan laudan bitboard
+        combined_board: oma ja vastustajan lauta yhdessä.
+
+    Returns:
+        True, jos valittua nappulaa uhkaa liukuva nappula.
+    """
     for direction in directions:
         current = where
         while True:

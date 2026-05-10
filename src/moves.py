@@ -73,6 +73,7 @@ def move_leaves_king_in_check(board, where, to):
     board_copy.pieces_location[where] = None
     board_copy.pieces_location[to] = target
 
+    # Sotilaan ylentäminen kuningattareksi kopiolaudalla.
     if "pawn" in target:
         rank = to // 8
 
@@ -136,6 +137,7 @@ def move(board, where, to, silent=False):
     board.pieces_location[where] = None
     board.pieces_location[to] = target
 
+    # Sotilaan ylentäminen kuningattareksi
     if "pawn" in target:
         rank = to // 8
 

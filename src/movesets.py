@@ -1,7 +1,6 @@
 from utils import lsb_helper, sliding_pieces, sliding_attacks_check
 
-# Kaikki ruudut paitsi oikea reuna, ja vasen reuna.
-# Käytetään maskeina, jotta nappulat eivät hyppää reunasta reunaan.
+# Käytetään maskeja, jotta nappulat eivät hyppää reunasta reunaan.
 NOT_A_FILE = 0xfefefefefefefefe
 NOT_AB_FILE = 0xfcfcfcfcfcfcfcfc
 NOT_H_FILE = 0x7f7f7f7f7f7f7f7f
@@ -234,6 +233,11 @@ def queen_moves(board):
 
 
 def checked(board):
+    """Tarkistaa onko vuorossa oleva pelaaja shakissa.
+    
+    Returns:
+        True, jos kuningas on shakissa, muuten False.
+    """
     if board.white_turn:
         friendly_king = board.white_king
         own_board = board.white_board

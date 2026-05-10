@@ -66,6 +66,15 @@ PIECE_LOCATION_VALUES = {
                     20, 30, 10,  0,  0, 10, 30, 20]}
 
 def get_piece_value(board, square):
+    """Palauttaa nappulan arvon.
+
+    Args:
+        board: tutkittava lauta
+        square: tutkittava ruutu
+
+    Returns:
+        Nappulan arvo laskettuna sijainnista laudalla ja nappulan ominaisarvosta.
+    """
     piece = board.pieces_location[square]
 
     if piece is None:
@@ -75,11 +84,11 @@ def get_piece_value(board, square):
     piecemap = PIECE_LOCATION_VALUES[piece]
 
     if color == "white":
-        return piecemap[square ^ 56] + PIECE_VALUES[piece]
+        return piecemap[square ^ 56] + PIECE_VALUES[piece] # ^ 56 kääntää PIECE_LOCATION_VALUES valkoiselle puolelle.
     return -(piecemap[square] + PIECE_VALUES[piece])
 
 def get_board_score(board):
-    """Palauttaa nykyisen laudantilan pisteet. Valkoiset positiivisena, mustat negatiivisena."""
+    """Palauttaa nykyisen laudan tilan pisteet. Valkoiset positiivisena, mustat negatiivisena."""
     score = 0
     for square in range(64):
         score += get_piece_value(board, square)
@@ -101,20 +110,20 @@ def minimax(board, depth, alpha, beta, maximizing):
     if checked(board):
         legal_moves = moves.get_legal_moves(board)
         if not legal_moves:
-            return -1000000 if maximizing else 1000000
+            return -1000000 if maximizing else 1000000 # Shakkimatti
     else:
         if depth == 0:
             return get_board_score(board)
 
         legal_moves = moves.get_legal_moves(board)
         if not legal_moves:
-            return 0
+            return 0 # Tasapeli
 
     if depth == 0:
         return get_board_score(board)
 
     def move_priority(board, move):
-        """Järjestää nappulat AB karsintaa varten. Syötävän arvo - syöjän arvo on päämäärittäjä, 
+        """Järjestää nappulat AB karsintaa varten. Syötävän arvo - syöjän arvo on päämäärittäjä (MVV-LVA), 
         jos liike ei ole syövä niin liikkuvan nappulan arvoa prioritisoidaan."""
         where, to = move
 
@@ -158,7 +167,11 @@ def minimax(board, depth, alpha, beta, maximizing):
     return min_eval
 
 def get_best_move(board, max_depth=4):
-    """ Kertoo parhaan laillisen siirron nykyiselle pelaajalle minimaxilla.
+    """ Kertoo parhaan laillisen siirron nykyiselle pelaajalle minimaxilla. Käyttää iteratiivista syvenemistä.
+
+    Args:
+        board : kohdelauta
+        max_depth: maksimi syvyys, jota tavoitetaan iteratiivisesti yhdestä eteenpäin.
     
     Returns:
         best_move: paras siirto pelaajalle.
@@ -167,7 +180,6 @@ def get_best_move(board, max_depth=4):
     if not legal_moves:
         return None
 
-    depth = 1
     best_move = None
 
     for depth in range(1, max_depth + 1):
