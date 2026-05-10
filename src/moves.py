@@ -73,6 +73,19 @@ def move_leaves_king_in_check(board, where, to):
     board_copy.pieces_location[where] = None
     board_copy.pieces_location[to] = target
 
+    if "pawn" in target:
+        rank = to // 8
+
+        if board_copy.white_turn and rank == 7:
+            board_copy.white_pawn &= ~(1 << to)
+            board_copy.white_queen |= (1 << to)
+            board_copy.pieces_location[to] = "white_queen"
+
+        elif not board_copy.white_turn and rank == 0:
+            board_copy.black_pawn &= ~(1 << to)
+            board_copy.black_queen |= (1 << to)
+            board_copy.pieces_location[to] = "black_queen"
+
     board_copy.update_board()
     return not movesets.checked(board_copy)
 
@@ -97,8 +110,8 @@ def move_ai(board, where, to):
     """Liikkuminen laudan koordinaateilla."""
     return move(board, where, to, silent=True)
 
-def move(board, where, to, silent=False): #pylint: disable=too-many-statements
-    """Liikkuminen laudalla, poistaa lähtöruudusta nappulan ja lisää tavoiteruutuun
+def move(board, where, to, silent=False):
+    """Liikkuminen laudalla, poistaa lähtöruudusta nappulan ja lisää tavoiteruutuun. Sisältää sotilaan muuttumisen kuningattareksi.
     
     Args:
         where: lähtöruutu
@@ -123,6 +136,19 @@ def move(board, where, to, silent=False): #pylint: disable=too-many-statements
     board.pieces_location[where] = None
     board.pieces_location[to] = target
 
+    if "pawn" in target:
+        rank = to // 8
+
+        if board.white_turn and rank == 7:
+            board.white_pawn &= ~(1 << to)
+            board.white_queen |= (1 << to)
+            board.pieces_location[to] = "white_queen"
+
+        elif not board.white_turn and rank == 0:
+            board.black_pawn &= ~(1 << to)
+            board.black_queen |= (1 << to)
+            board.pieces_location[to] = "black_queen"
+
     board.white_turn = not board.white_turn
 
     board.update_board()
@@ -138,7 +164,7 @@ def move(board, where, to, silent=False): #pylint: disable=too-many-statements
 
     return True
 
-def check_legality(board, where, to): #pylint: disable=too-many-return-statements
+def check_legality(board, where, to):
     """Tarkistaa siirron pseudolaillisuuden.
     
     Args:
@@ -177,7 +203,7 @@ def check_legality(board, where, to): #pylint: disable=too-many-return-statement
     return move_leaves_king_in_check(board, where, to)
 
 
-def get_legal_moves(board):  #pylint: disable=too-many-statements
+def get_legal_moves(board):
     """Palauttaa kaikki lailliset siirrot.
     
     Returns:

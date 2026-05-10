@@ -86,7 +86,7 @@ def get_board_score(board):
 
     return score
 
-def minimax(board, depth, alpha, beta, maximizing): #pylint: disable=too-many-statements
+def minimax(board, depth, alpha, beta, maximizing):
     """Hyvin yksinkertainen minimax AB karsinnalla.
 
     Args:
@@ -98,20 +98,17 @@ def minimax(board, depth, alpha, beta, maximizing): #pylint: disable=too-many-st
     Returns:
         laudan evaluaatio halutulla syvyydellä.
     """
+    if depth == 0:
+        return get_board_score(board)
+
     if checked(board):
         legal_moves = moves.get_legal_moves(board)
         if not legal_moves:
             return -1000000 if maximizing else 1000000
     else:
-        if depth == 0:
-            return get_board_score(board)
-
         legal_moves = moves.get_legal_moves(board)
         if not legal_moves:
             return 0
-
-    if depth == 0:
-        return get_board_score(board)
 
     def move_priority(board, move):
         """Järjestää nappulat AB karsintaa varten. Syötävän arvo - syöjän arvo on päämäärittäjä, 
@@ -157,7 +154,7 @@ def minimax(board, depth, alpha, beta, maximizing): #pylint: disable=too-many-st
             break
     return min_eval
 
-def get_best_move(board, max_depth=4): #pylint: disable=too-many-statements
+def get_best_move(board, max_depth=4):
     """ Kertoo parhaan laillisen siirron nykyiselle pelaajalle minimaxilla.
     
     Returns:

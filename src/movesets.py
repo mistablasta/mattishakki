@@ -108,7 +108,7 @@ def king_moves(board):
     return movelist
 
 
-def pawn_moves(board): #pylint: disable=too-many-statements
+def pawn_moves(board):
     """Palauttaa kaikki sotilaan pseudolailliset liikkeet kyseisellä vuorolla.
     
     Args:
@@ -233,7 +233,7 @@ def queen_moves(board):
     return movelist
 
 
-def checked(board): #pylint: disable=too-many-statements
+def checked(board):
     if board.white_turn:
         friendly_king = board.white_king
         own_board = board.white_board
@@ -244,7 +244,7 @@ def checked(board): #pylint: disable=too-many-statements
         opponent_rooks = board.black_rook
         opponent_bishops = board.black_bishop
         opponent_pawns = board.black_pawn
-        pawn_attacks = BLACK_PAWN_ATTACKS_BITBOARD
+        pawn_attacks = WHITE_PAWN_ATTACKS_BITBOARD
     else:
         friendly_king = board.black_king
         own_board = board.black_board
@@ -255,7 +255,7 @@ def checked(board): #pylint: disable=too-many-statements
         opponent_rooks = board.white_rook
         opponent_bishops = board.white_bishop
         opponent_pawns = board.white_pawn
-        pawn_attacks = WHITE_PAWN_ATTACKS_BITBOARD
+        pawn_attacks = BLACK_PAWN_ATTACKS_BITBOARD
 
     combined_board = board.combined_board
     king_square = (friendly_king & -friendly_king).bit_length() - 1
@@ -266,8 +266,8 @@ def checked(board): #pylint: disable=too-many-statements
         return True
     if pawn_attacks[king_square] & opponent_pawns:
         return True
-    if sliding_attacks_check(king_square, ROOK_DIRECTIONS, own_board, opponent_rooks | opponent_queen, combined_board): #pylint: disable=line-too-long
+    if sliding_attacks_check(king_square, ROOK_DIRECTIONS, own_board, opponent_rooks | opponent_queen, combined_board):
         return True
-    if sliding_attacks_check(king_square, BISHOP_DIRECTIONS, own_board, opponent_bishops | opponent_queen, combined_board): #pylint: disable=line-too-long
+    if sliding_attacks_check(king_square, BISHOP_DIRECTIONS, own_board, opponent_bishops | opponent_queen, combined_board):
         return True
     return False
